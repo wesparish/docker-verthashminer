@@ -16,7 +16,7 @@ RUN apt-get update \
 
 WORKDIR /home/miner
 
-ENV MINER_URL="https://github.com/CryptoGraphics/VerthashMiner/releases/download/0.7.0/VerthashMiner-0.7.0-CUDA11-linux.tar.gz"
+ENV MINER_URL="https://github.com/CryptoGraphics/VerthashMiner/releases/download/0.7.1/VerthashMiner-0.7.1-CUDA11-linux.tar.gz"
 RUN curl -Lso miner.tar.gz ${MINER_URL} && \
     tar -xzf miner.tar.gz && \
     mv *iner*-*-linux/* . && \

@@ -24,7 +24,7 @@ while getopts ":pr:i:a:" o; do
             imagename=${OPTARG}
             ;;
         a)
-            pivateRegistry=${OPTARG}
+            privateRegistry=${OPTARG}
             ;;
         *)
             usage
@@ -40,9 +40,12 @@ buildDate=$(date +%Y-%m-%d-%H%M%S)
 set -e
 
 for dockerfile in $(find  -name Dockerfile); do
-  rsync -av --delete ./crypto-prometheus/ $(dirname $dockerfile)/crypto-prometheus/
   versionvariant=$(dirname $dockerfile | sed -e 's|^./||g' -e 's|/|-|g')
   echo Building variant: $versionvariant
+
+  echo Staging common dir to $(dirname $dockerfile)
+  rsync -av ./common/ $(dirname $dockerfile)/
+
   echo docker build -t $registry/${imagename}:${versionvariant} $(dirname $dockerfile)
   docker build -t $registry/${imagename}:$versionvariant $(dirname $dockerfile)
   echo docker push $registry/${imagename}:${versionvariant}
